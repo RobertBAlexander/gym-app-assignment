@@ -77,6 +77,16 @@ public class Analytics {
     }
 
     /**
+     * This method returns the member height converted from meters to inches.
+     *
+     * @return member height converted from meters to inches using the formula: meters
+     * multiplied by 39.37. The number returned is truncated to two decimal places.
+     */
+    public double convertHeightMetersToInches()
+    {
+        return toTwoDecimalPlaces(height * 39.37);
+    }
+    /**
      * This method returns a boolean to indicate if the member has an idea body weight based on the Devine formula.
      *
      * For men an ideal weight is: 50kg + 2.3kg for each inch over 5 feet.
@@ -109,14 +119,14 @@ public class Analytics {
       {
         if (gender.equals("M"))
         {
-            idealBodyWeight = 50 + ((inches - fivefeet) * 2.3);
+            idealBodyWeight = 50 + ((inches - fiveFeet) * 2.3);
         }
         else
         {
-            idealBodyWeight = 45.5 + ((inches - fivefeet) * 2.3);
+            idealBodyWeight = 45.5 + ((inches - fiveFeet) * 2.3);
         }
       }
-      return ( (idealBodyWeight <= (startingWeight + 2.0)) && (ideaBodyWeight >= (startingWeight - 2.0)));
+      return ( (idealBodyWeight <= (startingWeight + 2.0)) && (idealBodyWeight >= (startingWeight - 2.0)));
     }
 
     /**
