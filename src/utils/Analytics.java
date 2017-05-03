@@ -1,5 +1,7 @@
 package utils;
 
+import models.*;
+
 /**
  * Created by Robert Alexander on 29/04/2017.
  */
@@ -14,13 +16,14 @@ public class Analytics {
      * @param assessment
      * @return the BMI value for the member. The number returned is reduced to two decimal places.
      */
+    //!!!!Should be static!
     public static double calculateBMI (Member member, Assessment assessment)
     {
-        if (this.height <= 0)
+        if (member.getHeight() <= 0)
             return 0;
         else
         {
-            return toTwoDecimalPlaces(this.startingWeight / (this.height * this.height));
+            return toTwoDecimalPlaces(assessment.getWeight() / (member.getHeight() * member.getHeight()));
         }
     }
 
@@ -43,33 +46,32 @@ public class Analytics {
      */
     public static String determineBMICategory (double bmiValue)
     {
-        double bmi = calculateBMI();
 
-        if (bmi < 15)
+        if (bmiValue < 15)
         {
             return "\"VERY SEVERELY UNDERWEIGHT\"";
         }
-        else if (bmi < 16)
+        else if (bmiValue < 16)
         {
             return "\"SEVERELY UNDERWEIGHT\"";
         }
-        else if (bmi < 18.5)
+        else if (bmiValue < 18.5)
         {
             return "\"UNDERWEIGHT\"";
         }
-        else if (bmi < 25)
+        else if (bmiValue < 25)
         {
             return "\"NORMAL\"";
         }
-        else if (bmi < 30)
+        else if (bmiValue < 30)
         {
             return "\"OVERWEIGHT\"";
         }
-        else if (bmi < 35)
+        else if (bmiValue < 35)
         {
             return "\"MODERATELY OBESE\"";
         }
-        else if (bmi < 40)
+        else if (bmiValue < 40)
         {
             return "\"SEVERELY OBESE\"";
         }
@@ -82,9 +84,17 @@ public class Analytics {
      * @return member height converted from meters to inches using the formula: meters
      * multiplied by 39.37. The number returned is truncated to two decimal places.
      */
-    public double convertHeightMetersToInches()
+    public static double convertHeightMetersToInches(Member member)
     {
-        return toTwoDecimalPlaces(height * 39.37);
+        double convertedHeight = (member.getHeight() * 39.37);
+        return toTwoDecimalPlaces(convertedHeight);
+    }
+
+
+    public static double convertWeightKGtoPounds(Assessment assessment)
+    {
+        double convertedWeight = (assessment.getWeight() * 2.2);
+        return convertedWeight;
     }
     /**
      * This method returns a boolean to indicate if the member has an idea body weight based on the Devine formula.
@@ -102,11 +112,11 @@ public class Analytics {
     double fiveFeet = 60.0;
     double idealBodyWeight;
 
-    double inches = convertHeightMetersToInches();
+    double inches = convertHeightMetersToInches(member);
 
     if (inches <= fiveFeet)
       {
-        if (gender.equals("M"))
+        if (member.getGender().equals("M"))
         {
             idealBodyWeight = 50;
         }
@@ -117,7 +127,7 @@ public class Analytics {
       }
       else
       {
-        if (gender.equals("M"))
+        if (member.getGender().equals("M"))
         {
             idealBodyWeight = 50 + ((inches - fiveFeet) * 2.3);
         }
@@ -126,7 +136,7 @@ public class Analytics {
             idealBodyWeight = 45.5 + ((inches - fiveFeet) * 2.3);
         }
       }
-      return ( (idealBodyWeight <= (startingWeight + 2.0)) && (idealBodyWeight >= (startingWeight - 2.0)));
+      return ( (idealBodyWeight <= (assessment.getWeight() + 2.0)) && (idealBodyWeight >= (assessment.getWeight() - 2.0)));
     }
 
     /**
@@ -135,8 +145,9 @@ public class Analytics {
      * @param num
      * @return This takes in a double and returns one that only goes to two decimal places.
      */
-    private double toTwoDecimalPlaces ( double num)
+    private static double toTwoDecimalPlaces ( double num)
     {
         return (int)(num * 100) / 100.0;
     }
+
 }

@@ -1,6 +1,12 @@
 package models;
 
 
+import java.util.HashMap;
+import java.util.Date;
+import java.util.SortedSet;
+import java.util.Collections;
+import models.Assessment;
+
 
 /**
  * This class is the template for a single Member. This is a super class for Premium Member
@@ -19,6 +25,8 @@ package models;
 abstract public class Member extends Person{
     private double height;
     private double startingWeight;
+    //public String chosenPackage;
+    HashMap<Date, Assessment> assessments = new HashMap<>();
 
     /**
      * Constructor for objects of class Member.
@@ -37,7 +45,8 @@ abstract public class Member extends Person{
      * @param startingWeight The Person's weight upon joining the gym must be greater than or equal
      *               to 35kg, and less than or equal to 250kg.
      */
-    public Member( String name, String email, String address, String gender, double height, double startingWeight) {
+    public Member( String name, String email, String address, String gender, double height,
+                   double startingWeight) {
         super(name, email, address, gender);
         if ((height >= 1) && (height <= 3))
         {
@@ -75,6 +84,14 @@ abstract public class Member extends Person{
         this.startingWeight = startingWeight;
     }
 
+    public void addAssessment(Date date, Assessment assessment)
+    {
+        //need to do code for getting the current date, and also need to figure out
+        //how I'm referring to assessments so that I can call them here.
+        //assessments.put(currentDate, assessmentName)
+        assessments.put(date, assessment);
+    }
+
     //********************************************************************************
     //  GETTERS
     //********************************************************************************
@@ -100,10 +117,26 @@ abstract public class Member extends Person{
      * Returns the latest assessment based on last entry (by calendar date).
      * @return the latest assessment based on last entry (by calendar date).
      */
-   /* public Assessment latestAssessment {
-        return assessment;
+    public Assessment latestAssessment() {
+        //check all assessments for most recent by Date. Return latest assessment.
+       /* for (int i = 0; i < numberOfMembers(); i++)
+            {
+                idealWeightMembers += i + ": " + members.get(i) + "\n";
+            }
+            return idealWeightMembers;
+
+
+            if at the start, do:
+            return assessment first();
+            if at end, do:
+            return assessment last();
+            */
+            return SortedSet.last();
+
+
+
     }
-    */
+
 
     /**
      * Returns the assessments dates sorted in date order. (I can change out of sorted set if I want to do
@@ -111,11 +144,17 @@ abstract public class Member extends Person{
      * @return the assessments dates sorted in date order. (I can change out of sorted set if I want to do
      * this another way)
      */
-   /*
+
    public SortedSet<Date> sortedAssessmentDates()
     {
-        return dates;
-    }*/
+        //Do not have <Date> working properly.
+        return Collections.sort(assessments, date);
+        //kind of like how list =array list.
+        //strip dates off, then sort those dates.
+        //what is the concrete class I use(like arraylist) figure out what concrete class in a set is sorted?
+        // use key values of the hashmap?
+        //make sure they are sorted by most recent first.
+    }
 
     /**
      * The concrete implementation of this method will be completed in Member subclasses.

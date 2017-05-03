@@ -1,8 +1,18 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import models.Assessment;
 import models.Member;
 import models.Trainer;
+import utils.Analytics;
 
 /**
  * This class is the template for a Gym. It is a concrete class that operates between:
@@ -24,19 +34,9 @@ import models.Trainer;
 
 public class GymApi {
 
-    private ArrayList<Member> members;
-    private ArrayList<Trainer> trainers;
+    private ArrayList<Member> members = new ArrayList();
+    private ArrayList<Trainer> trainers = new ArrayList();
 
-    /**
-     * Constructor for objects of class GymAPI
-     * @param members There is no validation on the array list of members.
-     * @param trainers There is no validation on the array list of trainers.
-     */
-  public GymApi (ArrayList<Member> members, ArrayList<Trainer> trainers)
-  {
-    members = new ArrayList<>();
-    trainers = new ArrayList<>();
-  }
 
     //********************************************************************************
     //  SETTERS
@@ -96,5 +96,262 @@ public class GymApi {
      */
     public ArrayList<Trainer> getTrainers() {
         return trainers;
+    }
+
+    /**
+     *
+     * @param index The index number that is being checked
+     * @return True if the index is valid, otherwise return false
+     */
+    public boolean isValidMemberIndex (int index)
+    {
+        //Return true if the index passed as a parameter is a valid index for the member's array list
+        if ((members.size() > 0) && (members.size() > index) && (index >= 0))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param index The index number that is being checked
+     * @return True if the index is valid, otherwise return false
+     */
+    public boolean isValidTrainerIndex (int index)
+    {
+        if ((trainers.size() > 0) && (trainers.size() > index) && (index >= 0))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public Member searchMembersByEmail (String emailEntered)
+    {
+        //Finds a member based on an e-mail entered. If no match, return null
+        //use... member.getEmail Then, if that string.equals emailEntered, return it. But search all e-mail strings!
+        String searchByMail = new String("");
+        if (members.size() > 0)
+        {
+            // try members members members!!
+            for (Member member : members)
+            {
+                if (emailEntered.equals(member.getEmail()))
+                {
+                    //searchByMail += searchByMail + member.getName();
+                    return member;
+
+
+                    //above works if I want to return name of member. I want to return the 'member object'.
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
+        else
+        {
+            return null;
+        }
+        return null;
+    }
+
+
+    public String searchMembersByName (String nameEntered)
+    {
+        //Return list of members who's name partially or entirely matches entered name. If no members in gym,
+        //return note indicating this. If no there are members, but no matches, return message
+        //for this separately.
+        String searchByName = new String("");
+        if (members.size() > 0)
+        {
+            for (int i = 0; i < numberOfMembers(); i++)
+            {
+                if (members.get(i).getName().contains(nameEntered))
+                {
+                    searchByName += searchByName + members.get(i).getName() + "\n";
+
+                    //above works if I want to return name of member. I want to return the 'member object'.
+                }
+            }
+            if (searchByName.equals(""))
+            {
+                return "There are no members matching your search criteria.";
+            }
+            else
+            {
+                return searchByName;
+            }
+
+        }
+        else
+        {
+            return "There are no members in this gym.";
+        }
+
+
+
+    }
+
+    //Perhaps this should be public Trainer, since it is for trainer, not person e-mails only?
+    public Trainer searchTrainersByEmail (String emailEntered)
+    {
+        //Returns the trainer based on e-mail entered. If no match, return null.
+        String searchByMail = new String("");
+        if (trainers.size() > 0)
+        {
+            // try members members members!!
+            for (Trainer trainer : trainers)
+            {
+                if (emailEntered.equals(trainer.getEmail()))
+                {
+                    //searchByMail += searchByMail + trainer.getName();
+                    return trainer;
+
+
+                    //above works if I want to return name of trainer. I want to return the 'trainer object'.
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
+        else
+        {
+            return null;
+        }
+        return null;
+    }
+
+    public String listMembers ()
+    {
+        //If members.size > 0. String listing all members in gym. If none, indicate this.
+        if(members.size() > 0)
+        {
+            String listOfMembers = "";
+            for (int i = 0; i < numberOfMembers(); i++)
+            {
+                listOfMembers += i + ": " + members.get(i) + "\n";
+            }
+            return listOfMembers;
+        }
+        else
+        {
+            return "There are no members in this gym.";
+        }
+    }
+
+    public String listMembersWithIdealWeight ()
+    {
+        //Return string containing all the members details in the gym, who have ideal weight based
+        //on latest assessment weight(devine method). If no members in gym, return indicating this.
+        //If there are members, but none have ideal weight, return message for this separately.
+        if(members.size() > 0)
+        {
+            String idealWeightMembers = "";
+            for (Member member: members)
+            {
+                if (Analytics.isIdealBodyWeight(member, member.latestAssessment()))
+                {
+                    idealWeightMembers += member.toString() + "\n";
+                }
+
+                //boolean memberCurrentIdeal = Analytics.isIdealBodyWeight(member, assessment);
+
+                //if (memberCurrentIdeal == true)
+                //{
+                //    String idealMember = "" + Member.toString();
+
+                //}
+
+
+                //idealWeightMembers += i + ": " + members.get(i) + "\n";
+            }
+
+            if (idealWeightMembers.equals(""))
+            {
+                return "There are currently no members in the gym with an ideal weight.";
+            }
+            else
+            {
+                return idealWeightMembers;
+            }
+        }
+        else
+        {
+            return "There are no members in this gym.";
+        }
+    }
+
+    public String listMembersBySpecificBMICategory (String category)
+    {
+        //String containing all members details in the gym whose BMI category (based on latest assessment weight)
+        // partially or entirely matches category. If no members, return message. If members, but no partial
+        //or full match, return message.
+        if (members.size() > 0){
+            String listOfMembers = "";
+            for (Member member: members){
+                //?rba? member.getlatest assessment
+                if (Analytics.determineBMICategory(Analytics.calculateBMI(member, member.latestAssessment())).toUpperCase().contains(category.toUpperCase())){
+                    listOfMembers += member.toString() + "\n";
+                }
+            }
+            if (listOfMembers.equals("")){
+                return "There are no members in the gym in this BMI category";
+            }
+            return listOfMembers;
+        }
+        else{
+            return "There are no members in the gym";
+        }
+    }
+
+    public String listMemberDetailsImperialAndMetric()
+    {
+        if (members.size() > 0){
+            String listOfMembers = "";
+            for (Member member: members){
+                listOfMembers += member.getName() + ":\t\t"
+                        + member.getWeight() + " kg ("
+                        + Analytics.convertWeightKGtoPounds(member.latestAssessment()) + " lbs)\t\t"
+                        + member.getHeight() + " metres ("
+                        + Analytics.convertHeightMetersToInches(member) + " inches)."
+                        + "\n";
+            }
+            return listOfMembers;
+        }
+        else{
+            return "There are no members in the gym.";
+        }
+    }
+
+    public void load () throws Exception
+    {
+        XStream xstream = new XStream(new DomDriver());
+        ObjectInputStream is = xstream.createObjectInputStream (new FileReader("gym.xml"));
+        trainers = (ArrayList<Trainer>) is.readObject();
+        members = (ArrayList<Member>) is.readObject();
+
+        is.close();
+    }
+
+    public void save () throws Exception
+    {
+        XStream xstream = new XStream(new DomDriver());
+        ObjectOutputStream out = xstream.createObjectOutputStream (new FileWriter("gym.xml"));
+        out.writeObject(members);
+        out.writeObject(trainers);
+        out.close();
     }
 }
