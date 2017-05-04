@@ -1,10 +1,9 @@
 package models;
 
 
-import java.util.HashMap;
-import java.util.Date;
-import java.util.SortedSet;
-import java.util.Collections;
+import java.text.DateFormat;
+import java.util.*;
+
 import models.Assessment;
 
 
@@ -73,22 +72,26 @@ abstract public class Member extends Person{
             this.height = height;
         }
     }
-
+/*
     /**
-     * This method updates the weight field.
+     * This method updates the weight field. It should not be used.
      * @param weight The Person's weight upon joining the gym must be greater than or equal
      *               to 35kg, and less than or equal to 250kg.
-     */
+
     public void setStartingWeight(double weight) {
         if ((startingWeight >= 35) && (startingWeight <= 250))
         this.startingWeight = startingWeight;
     }
+    */
 
     public void addAssessment(Date date, Assessment assessment)
     {
         //need to do code for getting the current date, and also need to figure out
         //how I'm referring to assessments so that I can call them here.
         //assessments.put(currentDate, assessmentName)
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd HH:mm:ss");
+        //Date currentDate = new Date();
+        //date = dateFormat.format(currentDate);
         assessments.put(date, assessment);
     }
 
@@ -148,7 +151,15 @@ abstract public class Member extends Person{
    public SortedSet<Date> sortedAssessmentDates()
     {
         //Do not have <Date> working properly.
-        return Collections.sort(assessments, date);
+        TreeSet keys = new TreeSet<Date>();
+        keys.addAll(assessments);
+
+        TreeSet(assessments<? extends assessments> );
+
+
+        //return Collections.sort(assessments, Date);
+
+
         //kind of like how list =array list.
         //strip dates off, then sort those dates.
         //what is the concrete class I use(like arraylist) figure out what concrete class in a set is sorted?

@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import models.Assessment;
 import models.Member;
+import models.PremiumMember;
 import models.Trainer;
 import utils.Analytics;
 
@@ -47,6 +48,15 @@ public class GymApi {
      * @param member There is no validation on adding a member to the array.
      */
     public void addMember(Member member)
+    {
+        members.add(member);
+    }
+
+    /**
+     * This method adds a member to the array list of members.
+     * @param member There is no validation on adding a member to the array.
+     */
+    public void addPremiumMember(PremiumMember member)
     {
         members.add(member);
     }
@@ -180,7 +190,6 @@ public class GymApi {
                 {
                     searchByName += searchByName + members.get(i).getName() + "\n";
 
-                    //above works if I want to return name of member. I want to return the 'member object'.
                 }
             }
             if (searchByName.equals(""))
@@ -217,8 +226,6 @@ public class GymApi {
                     //searchByMail += searchByMail + trainer.getName();
                     return trainer;
 
-
-                    //above works if I want to return name of trainer. I want to return the 'trainer object'.
                 }
                 else
                 {
