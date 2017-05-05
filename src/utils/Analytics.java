@@ -4,6 +4,19 @@ import models.*;
 
 /**
  * Created by Robert Alexander on 29/04/2017.
+ *
+ * This utility class is used within the application to analyse and calculate data for other classes in the application.
+ *
+ * The class uses the following public static methods:
+ * calculateBMI(prompt, prompt)         : Returns the BMI value of a member during a particular assessment based
+ *                                        on their height and weight.
+ * determineBMICategory(prompt)         : Returns the BMI category of amember, based on their BMI value.
+ * convertHeightMetersToInches(prompt)  : Returns a member's height in inches, based on their height in meters.
+ * convertWeightKGToPounds(prompt)      : Returns a member's weight in pounds , based on their weight in kg.
+ * isIdealBodyWeight(prompt, prompt)    : Checks if a member fits into the devine method of ideal body weight
+ *                                        during a particular assessment based on their height and weight.
+ * toTwoDecimalPlaces(prompt)           : Converts a 'double' prompt into a double that only goes to two decimal places.
+ *
  */
 public class Analytics {
 
@@ -16,7 +29,6 @@ public class Analytics {
      * @param assessment
      * @return the BMI value for the member. The number returned is reduced to two decimal places.
      */
-    //!!!!Should be static!
     public static double calculateBMI (Member member, Assessment assessment)
     {
         if (member.getHeight() <= 0)

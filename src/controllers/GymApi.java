@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import models.Assessment;
 import models.Member;
+import models.StudentMember;
 import models.PremiumMember;
 import models.Trainer;
 import utils.Analytics;
@@ -48,6 +49,15 @@ public class GymApi {
      * @param member There is no validation on adding a member to the array.
      */
     public void addMember(Member member)
+    {
+        members.add(member);
+    }
+
+    /**
+     * This method adds a member to the array list of members.
+     * @param member There is no validation on adding a member to the array.
+     */
+    public void addStudentMember(StudentMember member)
     {
         members.add(member);
     }
@@ -143,7 +153,7 @@ public class GymApi {
         }
     }
 
-    public Member searchMembersByEmail (String emailEntered)
+    public Member searchMembersByEmail(String emailEntered)
     {
         //Finds a member based on an e-mail entered. If no match, return null
         //use... member.getEmail Then, if that string.equals emailEntered, return it. But search all e-mail strings!
@@ -259,7 +269,7 @@ public class GymApi {
         }
     }
 
-    public String listMembersWithIdealWeight ()
+    public String listMembersWithIdealWeight()
     {
         //Return string containing all the members details in the gym, who have ideal weight based
         //on latest assessment weight(devine method). If no members in gym, return indicating this.

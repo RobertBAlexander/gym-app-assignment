@@ -3,6 +3,7 @@ package models;
 
 import java.text.DateFormat;
 import java.util.*;
+import java.util.TreeSet;
 
 import models.Assessment;
 
@@ -26,6 +27,7 @@ abstract public class Member extends Person{
     private double startingWeight;
     //public String chosenPackage;
     HashMap<Date, Assessment> assessments = new HashMap<>();
+    TreeSet<Date> assessmentTreeSet = new TreeSet<Date>();
 
     /**
      * Constructor for objects of class Member.
@@ -120,7 +122,9 @@ abstract public class Member extends Person{
      * Returns the latest assessment based on last entry (by calendar date).
      * @return the latest assessment based on last entry (by calendar date).
      */
+
     public Assessment latestAssessment() {
+        /*
         //check all assessments for most recent by Date. Return latest assessment.
        /* for (int i = 0; i < numberOfMembers(); i++)
             {
@@ -133,11 +137,10 @@ abstract public class Member extends Person{
             return assessment first();
             if at end, do:
             return assessment last();
-            */
+
             return SortedSet.last();
-
-
-
+*/
+        return null;
     }
 
 
@@ -150,14 +153,16 @@ abstract public class Member extends Person{
 
    public SortedSet<Date> sortedAssessmentDates()
     {
+        /*
         //Do not have <Date> working properly.
-        TreeSet keys = new TreeSet<Date>();
+        SortedSet<Date> keys = new TreeSet(SortedSet(<Date, assessments>));
         keys.addAll(assessments);
 
         TreeSet(assessments<? extends assessments> );
 
+        SortedSet s = Collections.synchronizedSortedSet(new TreeSet(assessments<? extends assessments> ));
 
-        //return Collections.sort(assessments, Date);
+        return Collections.sort(assessments, Date);
 
 
         //kind of like how list =array list.
@@ -165,6 +170,8 @@ abstract public class Member extends Person{
         //what is the concrete class I use(like arraylist) figure out what concrete class in a set is sorted?
         // use key values of the hashmap?
         //make sure they are sorted by most recent first.
+        */
+        return null;
     }
 
     /**
