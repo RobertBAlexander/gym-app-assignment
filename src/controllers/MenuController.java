@@ -7,6 +7,8 @@ import models.*;
 import utils.Analytics;
 
 /**
+ * This class runs the application and handles the GymApi with it's Members and Trainers.
+ *
  * Created by Robert Alexander on 29/04/2017.
  */
 public class MenuController {
@@ -15,6 +17,7 @@ public class MenuController {
     private GymApi gym;
     String memberEmail = new String();
     String trainerEmail = new String();
+    boolean userIsMember = false;
 
     public static void main (String[] args)
     {
@@ -23,6 +26,7 @@ public class MenuController {
 
     public MenuController()
     {
+        //Immediately try to load any pre-existing gym file.
         try
         {
             gym.load();
@@ -34,6 +38,11 @@ public class MenuController {
         loginMenu();
     }
 
+    /**
+     * loginMenu() - This method displays the first menu that any user will encounter. It checks
+     * if user is already a member or trainer, and if not it calls addMember() or addTrainer() to register them.
+     * Once the user has created or logged in to their account, the user is sent to the appropriate menu.
+     */
     private void loginMenu()
     {
         input = new Scanner(System.in);
@@ -43,7 +52,7 @@ public class MenuController {
         System.out.println("  Type 'M' for member, and 'T' for trainer.");
         char personChar = input.next().charAt(0);
         String personType = "" + personChar;
-        while ((personType.toUpperCase().equals("M")) && (personType.toUpperCase().equals("T")))
+        while ((!personType.toUpperCase().equals("M")) && (!personType.toUpperCase().equals("T")))
         {
             System.out.println("Invalid input, please type 'M' for member, or 'T' for trainer and press enter.");
             personChar = input.next().charAt(0);
@@ -55,7 +64,7 @@ public class MenuController {
         System.out.println("Type 'L' to log in to an existing account, or 'R' to register a new one.");
         char loginChar = input.next().charAt(0);
         String loginType = "" + loginChar;
-        while ((loginType.toUpperCase().equals("L")) && (loginType.toUpperCase().equals("R")))
+        while ((!loginType.toUpperCase().equals("L")) && (!loginType.toUpperCase().equals("R")))
         {
             System.out.println("Invalid input, please type 'L' to login to your account," +
                     " or 'R' to register a new one, then press enter.");
@@ -64,6 +73,7 @@ public class MenuController {
         }
         if ((loginType.toUpperCase().equals("L")) && (personType.toUpperCase().equals("M")))
         {
+            userIsMember = true;
             System.out.println("Please enter your e-mail address.");
             memberEmail = input.nextLine();
             //I am going through API, then immediate search, but it is possible to do another way?
@@ -81,6 +91,7 @@ public class MenuController {
         }
         if ((loginType.toUpperCase().equals("R")) && (personType.toUpperCase().equals("M")))
         {
+            userIsMember = true;
             addMember();
 
            // memberEmail = memEmail;
@@ -120,7 +131,13 @@ public class MenuController {
     }
 */
 
-
+    /**
+     * memberMenu() - The menu users are sent to once their account is confirmed. This method displays
+     * the member's menu choices for the application, reads the menu option that the member entered
+     * and returns it.
+     *
+     * @return      the member's menu choice
+     */
     private int memberMenu()
     {
         System.out.println("\fMember Menu");
@@ -133,8 +150,8 @@ public class MenuController {
         int option = input.nextInt();
         return option;
     }
-    /*
-     * This is the method that controls the loop.
+    /**
+     * This is the method that controls the member menu loop.
      */
     private void runMemberMenu(){
         int option = memberMenu();
@@ -152,15 +169,33 @@ public class MenuController {
             //pause the program so that the user can read what we just printed to the terminal window
             System.out.println("\nPress any key to continue...");
             input.nextLine();
-            input.nextLine(); //2nd read for bug in Scanner; String read is ignored after reading int.
-            //display the main menu again
+            //2nd read for bug in Scanner; String read is ignored after reading int.
+            input.nextLine();
+            //display the member menu again
             option = memberMenu();
         }
         //the user chose option 0, so exit the program
+
+        //Immediately try to save any current gym data, then exit program.
+        try
+        {
+            gym.save();
+           }
+        catch (Exception e)
+        {
+            System.err.println("Error reading from file: " + e);
+        }
+
         System.out.println("Exiting... bye");
         System.exit(0);
     }
 
+    /**
+     * memberProfileMenu() - This method displays the member profile sub-menu, which allows members to
+     * view and update their member details. This menu reads the menu option that the member entered and returns it.
+     *
+     * @return      the members menu choice
+     */
     private int memberProfileMenu()
     {
         System.out.println("\fMember Profile Menu");
@@ -177,8 +212,8 @@ public class MenuController {
         int option = input.nextInt();
         return option;
     }
-    /*
-     * This is the method that controls the loop.
+    /**
+     * This is the method that controls the member profile menu loop.
      */
     private void runMemberProfileMenu(){
         int option = memberProfileMenu();
@@ -198,7 +233,7 @@ public class MenuController {
                     break;
                 case 4:    System.out.println("Please enter your new gender.");
                     String newGender = input.nextLine();
-                    String newGen = new String();
+                    String newGen;
                     if (newGender.length() <= 1)
                     {
                         newGen = newGender;
@@ -220,15 +255,22 @@ public class MenuController {
             //pause the program so that the user can read what we just printed to the terminal window
             System.out.println("\nPress any key to continue...");
             input.nextLine();
-            input.nextLine(); //2nd read for bug in Scanner; String read is ignored after reading int.
-            //display the main menu again
+            //2nd read for bug in Scanner; String read is ignored after reading int.
+            input.nextLine();
+            //display the member profile menu again
             option = memberProfileMenu();
         }
-        //the user chose option 0, so exit the program
+        //the user chose option 0, so exits to the main Member Menu
         System.out.println("Returning to main Member Menu");
         runMemberMenu();
     }
 
+    /**
+     * progressSubMenu - This method displays the member progress sub-menu for the application,
+     * reads the menu option that the user entered and returns it.
+     *
+     * @return      the users menu choice
+     */
     private int progressSubMenu()
     {
         //TO DO:
@@ -242,7 +284,10 @@ public class MenuController {
         System.out.println("  4) View upper arm measurement progress");
         System.out.println("  5) View waist measurement progress");
         System.out.println("  6) View hips measurement progress");
-        System.out.println("  0) Exit to Member main menu");
+        //TODO
+        //It seems that this needs to return trainer to trainer menu, and member to member menu!
+        //must check user type, and code appropriately!
+        System.out.println("  0) Exit to main menu");
         System.out.println("==>> ");
 
         int option = input.nextInt();
@@ -250,6 +295,9 @@ public class MenuController {
 
     }
 
+    /**
+     * This is the method that controls the progress sub-menu loop.
+     */
     private void runProgressSubMenu(){
         int option = progressSubMenu();
         while (option != 0){
@@ -293,6 +341,13 @@ public class MenuController {
         runMemberMenu();
     }
 
+    /**
+     * trainerMenu - The menu trainers are sent to once their account is confirmed. This method displays
+     * the trainer's menu choices for the application, reads the menu option that the trainer entered
+     * and returns it.
+     *
+     * @return the trainers menu choice
+     */
     private int trainerMenu()
     {
         System.out.println("\fTrainer Menu");
@@ -310,8 +365,8 @@ public class MenuController {
         int option = input.nextInt();
         return option;
     }
-    /*
-     * This is the method that controls the loop.
+    /**
+     * This is the method that controls the trainer menu loop.
      */
     private void runTrainerMenu(){
         int option = trainerMenu();
@@ -357,8 +412,9 @@ public class MenuController {
             //pause the program so that the user can read what we just printed to the terminal window
             System.out.println("\nPress any key to continue...");
             input.nextLine();
+            //2nd read for bug in Scanner; String read is ignored after reading int.
             input.nextLine(); //2nd read for bug in Scanner; String read is ignored after reading int.
-            //display the main menu again
+            //display the trainer menu again
             option = trainerMenu();
         }
         //the user chose option 0, so exit the program
@@ -366,9 +422,16 @@ public class MenuController {
         System.exit(0);
     }
 
+    /**
+     * assessmentMenu - The menu trainers are sent to when they want to add an assessment to a member. This method displays
+     * the trainer's menu choices relating to member assessments, reads the menu option that the trainer entered
+     * and returns it.
+     *
+     * @return the trainers menu choice
+     */
     private int assessmentMenu()
     {
-        System.out.println("\fTrainer Menu");
+        System.out.println("\fTrainer's Assessment Menu");
         System.out.println("---------");
         System.out.println("  1) Add a new assessment for a member");
         System.out.println("  2) Update the comment on an assessment for a member");
@@ -379,6 +442,9 @@ public class MenuController {
         return option;
     }
 
+    /**
+     * This is the method that controls the assessment menu loop.
+     */
     private void runAssessmentMenu()
     {
         int option = trainerMenu();
@@ -413,9 +479,17 @@ public class MenuController {
     }
 
 
+    /**
+     * reportsMenu - This is the menu that trainers are sent to when they want to view the status reports of
+     * members.This method displays the trainer's menu choices relating to member progress reports,
+     *  reads the menu option that the trainer entered and returns it.
+     *
+     *
+     * @return the trainers menu choice
+     */
     private int reportsMenu()
     {
-        System.out.println("\fTrainer Menu");
+        System.out.println("\fProgress Report Menu");
         System.out.println("---------");
         System.out.println("  1) View the progress of a specific member, by searching by member e-mail");
         System.out.println("  2) View the progress of a specific member, by searching by member name");
@@ -427,6 +501,9 @@ public class MenuController {
         return option;
     }
 
+    /**
+     * This is the method that controls the reports menu loop.
+     */
     private void runReportsMenu()
     {
         int option = trainerMenu();
@@ -468,8 +545,9 @@ public class MenuController {
     // HELPER / UTILITY METHODS
     //===========================
 
-
-
+    /**
+     * Reads the member details from a user, and creates a new member from them.
+     */
     private void addMember()
     {
         System.out.println("We need you to provide some details so that we can set up this account.");
@@ -522,6 +600,9 @@ public class MenuController {
 
     }
 
+    /**
+     * Reads the trainer details from a user, and creates a new trainer from them.
+     */
     private void addTrainer()
     {
         System.out.println("We need you to provide some details so that we can set up your account.");
@@ -547,6 +628,9 @@ public class MenuController {
         trainerEmail = trainEmail;
     }
 
+    /**
+     * Reads the assessment details from a user, and creates a new assessment from them.
+     */
     private void addNewAssessment()
     {
         System.out.println("Please enter the name of the member you want to make an assessment of.");
@@ -581,6 +665,6 @@ public class MenuController {
     }
 
 
-    //Need to do code for chosenPackage here or in a new util. This is because you can have one package linked
+    //TODO Need to do code for chosenPackage here or in a new util. This is because you can have one package linked
     //with many members.
 }

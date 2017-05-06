@@ -119,7 +119,7 @@ public class GymApi {
     }
 
     /**
-     *
+     * Checks if a valid member resides at this index in the Member arrayList.
      * @param index The index number that is being checked
      * @return True if the index is valid, otherwise return false
      */
@@ -137,7 +137,7 @@ public class GymApi {
     }
 
     /**
-     *
+     * Checks if a valid trainer resides at this index in the Trainer arrayList.
      * @param index The index number that is being checked
      * @return True if the index is valid, otherwise return false
      */
@@ -153,6 +153,11 @@ public class GymApi {
         }
     }
 
+    /**
+     * Returns a member based on a search using the member's e-mail as the input.
+     * @param emailEntered The e-mail of the member being requested.
+     * @return The member with this e-mail.
+     */
     public Member searchMembersByEmail(String emailEntered)
     {
         //Finds a member based on an e-mail entered. If no match, return null
@@ -186,6 +191,11 @@ public class GymApi {
     }
 
 
+    /**
+     * Returns a string of all the members names who match the search, using name as the input.
+     * @param nameEntered The name which will be used to search through all member names.
+     * @return A list of all the names which partially match the name used in the search parameters.
+     */
     public String searchMembersByName (String nameEntered)
     {
         //Return list of members who's name partially or entirely matches entered name. If no members in gym,
@@ -222,6 +232,12 @@ public class GymApi {
     }
 
     //Perhaps this should be public Trainer, since it is for trainer, not person e-mails only?
+
+    /**
+     * Returns a trainer based on a search using the trainer's e-mail as the input.
+     * @param emailEntered The e-mail of the trainer being requested.
+     * @return The trainer with this e-mail.
+     */
     public Trainer searchTrainersByEmail (String emailEntered)
     {
         //Returns the trainer based on e-mail entered. If no match, return null.
@@ -251,6 +267,10 @@ public class GymApi {
         return null;
     }
 
+    /**
+     * Returns a list of all the members in this gym.
+     * @return list of all the members in this gym.
+     */
     public String listMembers ()
     {
         //If members.size > 0. String listing all members in gym. If none, indicate this.
@@ -269,6 +289,10 @@ public class GymApi {
         }
     }
 
+    /**
+     * Returns a list of all the members in this gym, with an ideal weight based on their latest assessment.
+     * @return list of all the members in this gym, with an ideal weight based on their latest assessment
+     */
     public String listMembersWithIdealWeight()
     {
         //Return string containing all the members details in the gym, who have ideal weight based
@@ -311,6 +335,13 @@ public class GymApi {
         }
     }
 
+    /**
+     * Returns a list of all the members in this gym,  who have a BMI category that fully or partially matches
+     * the category searched by the trainer.
+     * @param category The BMI category being checked.
+     * @return a list of all members in this gym, who have a BMI category that fully or partiaully matches the
+     * category searched by the trainer.
+     */
     public String listMembersBySpecificBMICategory (String category)
     {
         //String containing all members details in the gym whose BMI category (based on latest assessment weight)
@@ -334,6 +365,10 @@ public class GymApi {
         }
     }
 
+    /**
+     * Returns a list of all member's details in both Imperial and Metric.
+     * @return list of all member's details in both Imperial and Metric
+     */
     public String listMemberDetailsImperialAndMetric()
     {
         if (members.size() > 0){
@@ -353,6 +388,10 @@ public class GymApi {
         }
     }
 
+    /**
+     * Load date for a gym.
+     * @throws Exception
+     */
     public void load () throws Exception
     {
         XStream xstream = new XStream(new DomDriver());
@@ -363,6 +402,10 @@ public class GymApi {
         is.close();
     }
 
+    /**
+     * Saves data for the gym.
+     * @throws Exception
+     */
     public void save () throws Exception
     {
         XStream xstream = new XStream(new DomDriver());

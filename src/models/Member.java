@@ -76,7 +76,7 @@ abstract public class Member extends Person{
     }
 /*
     /**
-     * This method updates the weight field. It should not be used.
+     * This method updates the weight field. It should not be used, as weight should only be adjusted in assessments.
      * @param weight The Person's weight upon joining the gym must be greater than or equal
      *               to 35kg, and less than or equal to 250kg.
 
@@ -86,6 +86,14 @@ abstract public class Member extends Person{
     }
     */
 
+
+    /**
+     * This method adds an assessment to member. The current date, and the details of an assessment should
+     * be passed in.
+     * @param date The current date. This should be created automatically.
+     * @param assessment The assessment should contain current weight, chest, thigh, upperArm, waist, hips,
+     *                   a comment by the trainer, and the trainer who performed the assessment.
+     */
     public void addAssessment(Date date, Assessment assessment)
     {
         //need to do code for getting the current date, and also need to figure out
