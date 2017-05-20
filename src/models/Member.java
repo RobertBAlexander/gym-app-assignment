@@ -155,6 +155,18 @@ abstract public class Member extends Person{
 
     }
 
+    public String weightAssessment()
+    {
+        String weightAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            weightAssess += "" + date + assessments.get(date).getWeight();
+        }
+
+        return weightAssess;
+    }
+
     public String chestAssessment()
     {
         String chestAssess = "";
@@ -165,6 +177,66 @@ abstract public class Member extends Person{
         }
 
         return chestAssess;
+    }
+
+    public String thighAssessment()
+    {
+        String thighAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            thighAssess += "" + date + assessments.get(date).getThigh();
+        }
+
+        return thighAssess;
+    }
+
+    public String upperArmAssessment()
+    {
+        String upperArmAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            upperArmAssess += "" + date + assessments.get(date).getUpperArm();
+        }
+
+        return upperArmAssess;
+    }
+
+    public String waistAssessment()
+    {
+        String waistAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            waistAssess += "" + date + assessments.get(date).getWaist();
+        }
+
+        return waistAssess;
+    }
+
+    public String hipsAssessment()
+    {
+        String hipsAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            hipsAssess += "" + date + assessments.get(date).getHips();
+        }
+
+        return hipsAssess;
+    }
+
+    public String assessmentComment()
+    {
+        String commentAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            commentAssess += "" + date + assessments.get(date).getComment();
+        }
+
+        return commentAssess;
     }
 
 

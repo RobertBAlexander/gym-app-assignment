@@ -768,29 +768,59 @@ public class MenuController {
      */
     private void addNewAssessment()
     {
-        System.out.println("Please enter the name of the member you want to make an assessment of.");
-        String emailSearch = input.nextLine();
+        String emailSearch = "";
+        double assessWeight = 0;
+        double assessChest = 0;
+        double assessThigh = 0;
+        double assessUpperArm = 0;
+        double assessWaist = 0;
+        double assessHips = 0;
+        String assessComment = "";
 
-        System.out.println("Please enter the current weight of the member you are assessing.");
-        double assessWeight = validNextDouble("==>> ");
 
-        System.out.println("Please enter the current chest measurement of the member you are assessing.");
-        double assessChest = validNextDouble("==>> ");
 
-        System.out.println("Please enter the current thigh measurement of the member you are assessing.");
-        double assessThigh = validNextDouble("==>> ");
 
-        System.out.println("Please enter the current upper arm measurement of the member you are assessing.");
-        double assessUpperArm = validNextDouble("==>> ");
+        while ( gym.searchMembersByEmail(emailSearch) == null) {
+            System.out.println("Please enter the name of the member you want to make an assessment of.");
+            emailSearch = input.nextLine();
+        }
 
-        System.out.println("Please enter the current waist measurement of the member you are assessing.");
-        double assessWaist = validNextDouble("==>> ");
+        while ((assessWeight < 35) || (assessWeight > 250)) {
+            System.out.println("Please enter the current weight of the member you are assessing. Weight must be greater" +
+                    "than 35kg and less than 250kg. If the member's weight lies outside of these limits, call" +
+                    "an ambulance immediately.");
+            assessWeight = validNextDouble("==>> ");
+        }
 
-        System.out.println("Please enter the current hips measurement of the member you are assessing.");
-        double assessHips = validNextDouble("==>> ");
+        while (assessChest <= 0) {
+            System.out.println("Please enter the current chest measurement of the member you are assessing.");
+            assessChest = validNextDouble("==>> ");
+        }
 
-        System.out.println("What is your comment about this assessment on the member you are assessing?");
-        String assessComment = input.nextLine();
+        while (assessThigh <= 0) {
+            System.out.println("Please enter the current thigh measurement of the member you are assessing.");
+            assessThigh = validNextDouble("==>> ");
+        }
+
+        while (assessUpperArm <= 0) {
+            System.out.println("Please enter the current upper arm measurement of the member you are assessing.");
+            assessUpperArm = validNextDouble("==>> ");
+        }
+
+        while (assessWaist <= 0) {
+            System.out.println("Please enter the current waist measurement of the member you are assessing.");
+            assessWaist = validNextDouble("==>> ");
+        }
+
+        while (assessHips <= 0) {
+            System.out.println("Please enter the current hips measurement of the member you are assessing.");
+            assessHips = validNextDouble("==>> ");
+        }
+
+        while (assessComment == "") {
+            System.out.println("What is your comment about this assessment on the member you are assessing?");
+            assessComment = input.nextLine();
+        }
 
         Assessment newAssessment = new Assessment(assessWeight, assessChest, assessThigh,
             assessUpperArm, assessWaist, assessHips, assessComment, gym.searchTrainersByEmail(trainerEmail));
