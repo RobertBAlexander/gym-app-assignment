@@ -27,7 +27,7 @@ abstract public class Member extends Person{
     private double startingWeight;
     //public String chosenPackage;
     HashMap<Date, Assessment> assessments = new HashMap<>();
-    TreeSet<Date> assessmentTreeSet = new TreeSet<Date>();
+    TreeSet<Date> assessmentTreeSet = new TreeSet<>();
 
     /**
      * Constructor for objects of class Member.
@@ -74,6 +74,8 @@ abstract public class Member extends Person{
             this.height = height;
         }
     }
+
+    //TODO remove setStartingWeight or remove comments around it?
 /*
     /**
      * This method updates the weight field. It should not be used, as weight should only be adjusted in assessments.
@@ -96,7 +98,7 @@ abstract public class Member extends Person{
      */
     public void addAssessment(Date date, Assessment assessment)
     {
-        //need to do code for getting the current date, and also need to figure out
+        //TODO need to do code for getting the current date, and also need to figure out
         //how I'm referring to assessments so that I can call them here.
         //assessments.put(currentDate, assessmentName)
         //DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd HH:mm:ss");
@@ -133,8 +135,9 @@ abstract public class Member extends Person{
 
     public Assessment latestAssessment() {
         /*
+        //TODO Go through comment code and remove, if this works.
         //check all assessments for most recent by Date. Return latest assessment.
-       /* for (int i = 0; i < numberOfMembers(); i++)
+        for (int i = 0; i < numberOfMembers(); i++)
             {
                 idealWeightMembers += i + ": " + members.get(i) + "\n";
             }
@@ -148,7 +151,20 @@ abstract public class Member extends Person{
 
             return SortedSet.last();
 */
-        return null;
+        return assessments.get(sortedAssessmentDates().last());
+
+    }
+
+    public String chestAssessment()
+    {
+        String chestAssess = "";
+        for (Date date : sortedAssessmentDates())
+        {
+
+            chestAssess += "" + date + assessments.get(date).getChest();
+        }
+
+        return chestAssess;
     }
 
 
@@ -161,16 +177,19 @@ abstract public class Member extends Person{
 
    public SortedSet<Date> sortedAssessmentDates()
     {
-        /*
+        //TODO tidy up comment code, if this works.
         //Do not have <Date> working properly.
-        SortedSet<Date> keys = new TreeSet(SortedSet(<Date, assessments>));
-        keys.addAll(assessments);
+        SortedSet<Date> keys = new TreeSet<>(assessments.keySet());
+        return keys;
 
-        TreeSet(assessments<? extends assessments> );
+       // SortedSet<Date> test = new TreeSet<>(trainerAssessment.keySet())
+       // return test;
 
-        SortedSet s = Collections.synchronizedSortedSet(new TreeSet(assessments<? extends assessments> ));
+       // TreeSet(assessments<? extends assessments> );
 
-        return Collections.sort(assessments, Date);
+        //SortedSet s = Collections.synchronizedSortedSet(new TreeSet(assessments<? extends assessments> ));
+
+        //return Collections.sort(assessments, Date);
 
 
         //kind of like how list =array list.
@@ -178,8 +197,7 @@ abstract public class Member extends Person{
         //what is the concrete class I use(like arraylist) figure out what concrete class in a set is sorted?
         // use key values of the hashmap?
         //make sure they are sorted by most recent first.
-        */
-        return null;
+
     }
 
     /**

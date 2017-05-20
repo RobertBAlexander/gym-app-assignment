@@ -6,6 +6,9 @@ import controllers.GymApi.*;
 import models.*;
 import utils.Analytics;
 
+import static utils.ScannerInput.validNextDouble;
+import static utils.ScannerInput.validNextInt;
+
 /**
  * This class runs the application and handles the GymApi with it's Members and Trainers.
  *
@@ -15,9 +18,9 @@ public class MenuController {
 
     private Scanner input;
     private GymApi gym;
-    String memberEmail = new String();
-    String trainerEmail = new String();
-    boolean userIsMember = false;
+    private String memberEmail;
+    private String trainerEmail;
+    private boolean userIsMember = false;
 
     public static void main (String[] args)
     {
@@ -123,13 +126,7 @@ public class MenuController {
 
 
     }
-/*
-    //Going to try this another way, putting all in bottom of this class.
-    private void addMember()
-    {
-        gym.addMember(readMemberDetails());
-    }
-*/
+
 
     /**
      * memberMenu() - The menu users are sent to once their account is confirmed. This method displays
@@ -147,7 +144,7 @@ public class MenuController {
         System.out.println("  3) Go to progress sub-menu");
         System.out.println("  0) Exit");
         System.out.println("==>> ");
-        int option = input.nextInt();
+        int option = validNextInt("==>> ");
         return option;
     }
     /**
@@ -209,7 +206,7 @@ public class MenuController {
         System.out.println("  6) Update starting weight");
         System.out.println("  0) Exit to Member main menu");
         System.out.println("==>> ");
-        int option = input.nextInt();
+        int option = validNextInt("==>> ");
         return option;
     }
     /**
@@ -284,15 +281,12 @@ public class MenuController {
         System.out.println("  4) View upper arm measurement progress");
         System.out.println("  5) View waist measurement progress");
         System.out.println("  6) View hips measurement progress");
-        //TODO
-        //It seems that this needs to return trainer to trainer menu, and member to member menu!
+        //This needs to return trainer to trainer menu, and member to member menu!
         //must check user type, and code appropriately!
         System.out.println("  0) Exit to main menu");
         System.out.println("==>> ");
-
-        int option = input.nextInt();
+        int option = validNextInt("==>> ");
         return option;
-
     }
 
     /**
@@ -305,7 +299,11 @@ public class MenuController {
             //View progress by weight, chest, thigh, upperArm, waist, hips.
             //This requires getting back something useable from member.sortedAssessmentDates and member.addAssessment!!
             switch (option){
-                case 1:    System.out.println("Weight progress");
+                case 1:    System.out.println("Weight progress: ");
+                    gym.searchMembersByEmail(memberEmail).chestAssessment();
+
+                    //gym.searchMembersByEmail(memberEmail).sortedAssessmentDates().last();
+
 
                     break;
                 case 2:    System.out.println("Chest progress");
@@ -334,11 +332,17 @@ public class MenuController {
             //display the main menu again
             option = progressSubMenu();
         }
-        //TODO
-        //can't do it this way, as trainer needs access to this same menu, and it must exit them back to previous menu,
-        //not only member menu.
-        System.out.println("Returning to main Member Menu");
-        runMemberMenu();
+        //Below sends member users back to the member menu when they exit, and trainer users back to
+        // trainer menu when they exit.
+        System.out.println("Returning to Main Menu");
+        if ( !userIsMember)
+        {
+            runTrainerMenu();
+        }
+        else
+        {
+            runMemberMenu();
+        }
     }
 
     /**
@@ -362,7 +366,7 @@ public class MenuController {
         System.out.println("  8) Go to the reports sub-menu");
         System.out.println("  0) Exit");
         System.out.println("==>> ");
-        int option = input.nextInt();
+        int option = validNextInt("==>> ");
         return option;
     }
     /**
@@ -418,6 +422,16 @@ public class MenuController {
             option = trainerMenu();
         }
         //the user chose option 0, so exit the program
+        //Immediately try to save any current gym data, then exit program.
+        try
+        {
+            gym.save();
+        }
+        catch (Exception e)
+        {
+            System.err.println("Error reading from file: " + e);
+        }
+
         System.out.println("Exiting... bye");
         System.exit(0);
     }
@@ -435,10 +449,9 @@ public class MenuController {
         System.out.println("---------");
         System.out.println("  1) Add a new assessment for a member");
         System.out.println("  2) Update the comment on an assessment for a member");
-
-        System.out.println("  0) Exit");
+        System.out.println("  0) Exit to main menu");
         System.out.println("==>> ");
-        int option = input.nextInt();
+        int option = validNextInt("==>> ");
         return option;
     }
 
@@ -473,9 +486,9 @@ public class MenuController {
             //display the main menu again
             option = assessmentMenu();
         }
-        //the user chose option 0, so exit the program
-        System.out.println("Exiting... bye");
-        System.exit(0);
+        //the user chose option 0, so exit to trainer main menu
+        System.out.println("Returning to main menu");
+        runTrainerMenu();
     }
 
 
@@ -494,10 +507,9 @@ public class MenuController {
         System.out.println("  1) View the progress of a specific member, by searching by member e-mail");
         System.out.println("  2) View the progress of a specific member, by searching by member name");
         System.out.println("  3) Overall members' report");
-
-        System.out.println("  0) Exit");
+        System.out.println("  0) Exit to main menu");
         System.out.println("==>> ");
-        int option = input.nextInt();
+        int option = validNextInt("==>> ");
         return option;
     }
 
@@ -509,17 +521,34 @@ public class MenuController {
         int option = trainerMenu();
         while (option != 0){
             switch (option){
-                case 1:     System.out.println("this");
-                //go to progress sub menu searching by email
+                case 1:     System.out.println("Please enter the e-mail of the user you wish you check the progress of: ");
+                String emailSearch = input.nextLine();
+                if (gym.searchMembersByEmail(emailSearch) != null)
+                {
+                    memberEmail = emailSearch;
+                    runProgressSubMenu();
+                }
+                else
+                {
+                    System.out.println("Invalid e-mail entered. Please try again, or search by name to see a list of" +
+                            "possible member e-mail addresses.");
+                }
+                //TODO go to progress sub menu searching by email
 
                     break;
-                case 2:     System.out.println("this");
-                //go to progress sub menu searching by name
+                case 2:     System.out.println("Please enter the name, or part of a name, of the member you are searching for");
+                String nameSearch = input.nextLine();
+                gym.searchMembersByName(nameSearch);
+                //If that search returns no one by that name, it needs to check for that. This seems a bit mad really,
+                    //just to avoid doing a proper search by name...?
+                System.out.println("--------------------------------------------------");
+                    System.out.println("Please review the  the e-mail address of the member you wish to check the progress of");
+                //TODO go to progress sub menu searching by name
 
                     break;
 
                 case 3:     System.out.println("this");
-                    //send out ALL assessments from ALL members and return them all, sorted by member.
+                    //TODO send out ALL assessments from ALL members and return them all, sorted by member.
 
                     break;
 
@@ -535,9 +564,9 @@ public class MenuController {
             //display the main menu again
             option = reportsMenu();
         }
-        //the user chose option 0, so exit the program
-        System.out.println("Exiting... bye");
-        System.exit(0);
+        //the user chose option 0, so exit to trainer main menu
+        System.out.println("Returning to main menu");
+        runTrainerMenu();
     }
 
 
@@ -551,41 +580,102 @@ public class MenuController {
     private void addMember()
     {
         System.out.println("We need you to provide some details so that we can set up this account.");
-        System.out.println("Please enter member name.");
-        input.nextLine();
-        String memName = input.nextLine();
+        String memName = "";
+        String memEmail = "";
+        String memAddress = "";
+        String memGender = "";
+        double memHeight = 0;
+        double memWeight = 0;
+        char premiumOrStudent = 'n';
+        String stuCampus = "";
+        String stuID = "";
 
-        System.out.println("Please enter member e-mail address, making sure it has an '@' symbol.");
-        String memEmail = input.nextLine();
+        while (memName == "") {
+            System.out.println("Please enter member name.");
+            input.nextLine();
+            memName = input.nextLine();
+        }
 
-        System.out.println("Please enter member address.");
-        String memAddress = input.nextLine();
+        while (memEmail == "") {
+            //First check that it had an @, then check it does not already exist
+            System.out.println("Please enter member e-mail address, making sure it has an '@' symbol, and is not in use" +
+                    "by another member or trainer.");
+            memEmail = input.nextLine();
 
-        System.out.println("Please enter member gender. Type 'M' for male, and 'F' for female.");
-        //Possible that I need to do a char check here again. That means that gender should maybe be a char?
-        //char memGender = input.next().charAt(0);
-        String memGender = input.nextLine();
+            if (isValidEmail(memEmail))
+            {
 
-        System.out.println("Please enter member height, in meters. This means that a valid height is between 1.0 and 3.0 meters.");
-        double memHeight = input.nextDouble();
+            }
+            else
+            {
+                memEmail = "";
+            }
+            if (gym.searchMembersByEmail(memEmail) == null)
+            {
 
-        System.out.println("Please enter member current weight. This will be used as the starting weight, by which you can measure" +
-                " progress. Starting weight should be in KG, and should be between 35 and 250.");
-        double memWeight = input.nextDouble();
+            }
+            else
+            {
+                //TODO Have this tell the user that this e-mail is already in use.
+                memEmail = "";
+            }
+            if (gym.searchTrainersByEmail(memEmail) == null)
+            {
 
-        System.out.println("Please state whether this is a Premium membership(P) or a Student membership(S)?");
-        System.out.println("(P)remium or (S)tudent: ");
-        char premiumOrStudent = input.next().charAt(0);
+            }
+            else
+            {
+                //TODO Have this tell the user that this e-mail is already in use.
+                memEmail = "";
+            }
+
+        }
+
+        while ( memAddress == "") {
+            System.out.println("Please enter member address.");
+            memAddress = input.nextLine();
+        }
+
+        while ((memGender != "M") && (memGender != "F")) {
+            System.out.println("Please enter member gender. Type 'M' for male, and 'F' for female.");
+            //Possible that I need to do a char check here again. That means that gender should maybe be a char?
+            //memGender = input.next().charAt(0);
+            memGender = input.nextLine();
+            memGender = memGender.toUpperCase();
+
+        }
+
+        while ((memHeight < 1) || (memHeight > 3)) {
+            System.out.println("Please enter member height, in meters. This means that a valid height is between 1.0 and 3.0 meters.");
+            memHeight = validNextDouble("==>> ");
+        }
+
+        while ((memWeight < 35) || (memWeight > 250)) {
+            System.out.println("Please enter member current weight. This will be used as the starting weight, by which you can" +
+            "measure progress. Starting weight should be in KG, and should be between 35 and 250.");
+            memWeight = validNextDouble("==>> ");
+        }
+
+        while ((premiumOrStudent != 'P') && (premiumOrStudent != 'p') && (premiumOrStudent != 'S') && (premiumOrStudent != 's')) {
+            System.out.println("Please state whether this is a Premium membership(P) or a Student membership(S)?");
+            System.out.println("(P)remium or (S)tudent: ");
+            premiumOrStudent = input.next().charAt(0);
+        }
 
         //It may be that packages also need to be included here. Should I make them a part of the member,
         //or should they also be created and linked separately?
         if ((premiumOrStudent == 'S') || (premiumOrStudent == 's'))
         {
-            System.out.println("Please enter name of College/University?");
-            input.nextLine();
-            String stuCampus = input.nextLine();
-            System.out.println("Please enter student ID, as proof of student status: ");
-            String stuID = input.nextLine();
+            while (stuCampus == "") {
+                System.out.println("Please enter name of College/University?");
+                input.nextLine();
+                stuCampus = input.nextLine();
+            }
+
+            while (stuID == "") {
+                System.out.println("Please enter student ID, as proof of student status: ");
+                stuID = input.nextLine();
+            }
 
             gym.addMember(new StudentMember(memName, memEmail, memAddress, memGender, memHeight,
                     memWeight, stuCampus, stuID));
@@ -606,22 +696,67 @@ public class MenuController {
     private void addTrainer()
     {
         System.out.println("We need you to provide some details so that we can set up your account.");
-        System.out.println("Please enter your name.");
-        input.nextLine();
-        String trainName = input.nextLine();
+        String trainName = "";
+        String trainEmail = "";
+        String trainAddress = "";
+        String trainGender = "";
+        String trainSpeciality = "";
+        while (trainName == "") {
+            System.out.println("Please enter your name. Names may be no more than 30 characters long.");
+            input.nextLine();
+            trainName = input.nextLine();
+        }
 
-        System.out.println("Please enter your e-mail address, making sure it has an '@' symbol.");
-        String trainEmail = input.nextLine();
+        while (trainEmail == "") {
+            System.out.println("Please enter trainer e-mail address, making sure it has an '@' symbol, and is not in use" +
+                    "by another trainer or member.");
+            trainEmail = input.nextLine();
 
-        System.out.println("Please enter your address.");
-        String trainAddress = input.nextLine();
+            if (isValidEmail(trainEmail))
+            {
 
-        System.out.println("Please enter your gender. Type 'M' for male, and 'F' for female.");
-        //Possible that I need to do a char check here again. How to do that, if not in public Person(....)?
-        String trainGender = input.nextLine();
+            }
+            else
+            {
+                trainEmail = "";
+            }
+            if (gym.searchMembersByEmail(trainEmail) == null)
+            {
 
-        System.out.println("Please enter your speciality.");
-        String trainSpeciality = input.nextLine();
+            }
+            else
+            {
+                //TODO Have this tell the user that this e-mail is already in use.
+                trainEmail = "";
+            }
+            if (gym.searchTrainersByEmail(trainEmail) == null)
+            {
+
+            }
+            else
+            {
+                //TODO Have this tell the user that this e-mail is already in use.
+                trainEmail = "";
+            }
+        }
+
+        while (trainAddress == "") {
+            System.out.println("Please enter your address.");
+            trainAddress = input.nextLine();
+        }
+
+        while ((trainGender != "M") && (trainGender != "F")) {
+            System.out.println("Please enter trainer gender. Type 'M' for male, and 'F' for female.");
+            //Possible that I need to do a char check here again. That means that gender should maybe be a char?
+            //memGender = input.next().charAt(0);
+            trainGender = input.nextLine();
+            trainGender = trainGender.toUpperCase();
+        }
+
+        while (trainSpeciality == "") {
+            System.out.println("Please enter your speciality.");
+            trainSpeciality = input.nextLine();
+        }
 
         gym.addTrainer(new Trainer(trainName, trainEmail, trainAddress, trainGender, trainSpeciality));
         System.out.println("Thank you for registering, you will now be redirected to the Trainer Menu.");
@@ -637,22 +772,22 @@ public class MenuController {
         String emailSearch = input.nextLine();
 
         System.out.println("Please enter the current weight of the member you are assessing.");
-        double assessWeight = input.nextDouble();
+        double assessWeight = validNextDouble("==>> ");
 
         System.out.println("Please enter the current chest measurement of the member you are assessing.");
-        double assessChest = input.nextDouble();
+        double assessChest = validNextDouble("==>> ");
 
         System.out.println("Please enter the current thigh measurement of the member you are assessing.");
-        double assessThigh = input.nextDouble();
+        double assessThigh = validNextDouble("==>> ");
 
         System.out.println("Please enter the current upper arm measurement of the member you are assessing.");
-        double assessUpperArm = input.nextDouble();
+        double assessUpperArm = validNextDouble("==>> ");
 
         System.out.println("Please enter the current waist measurement of the member you are assessing.");
-        double assessWaist = input.nextDouble();
+        double assessWaist = validNextDouble("==>> ");
 
         System.out.println("Please enter the current hips measurement of the member you are assessing.");
-        double assessHips = input.nextDouble();
+        double assessHips = validNextDouble("==>> ");
 
         System.out.println("What is your comment about this assessment on the member you are assessing?");
         String assessComment = input.nextLine();
@@ -667,4 +802,16 @@ public class MenuController {
 
     //TODO Need to do code for chosenPackage here or in a new util. This is because you can have one package linked
     //with many members.
+
+    public static boolean isValidEmail(String email)
+    {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+
+
+
 }

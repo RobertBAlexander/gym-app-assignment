@@ -206,9 +206,10 @@ public class GymApi {
         {
             for (int i = 0; i < numberOfMembers(); i++)
             {
-                if (members.get(i).getName().contains(nameEntered))
+                //Member member = members.get(i);
+                if (members.get(i).getName().toLowerCase().contains(nameEntered.toLowerCase()))
                 {
-                    searchByName += searchByName + members.get(i).getName() + "\n";
+                    searchByName += members.get(i).getName() + "\n";
 
                 }
             }
