@@ -53,8 +53,17 @@ abstract public class Member extends Person{
         {
             this.height = height;
         }
-        if ((startingWeight >= 35) && (startingWeight <= 250))
+        else
+        {
+            this.height = 0;
+        }
+        if ((startingWeight >= 35) && (startingWeight <= 250)) {
             this.startingWeight = startingWeight;
+        }
+        else
+        {
+            this.startingWeight = 0;
+        }
     }
 
 
@@ -73,20 +82,28 @@ abstract public class Member extends Person{
         {
             this.height = height;
         }
+        else
+        {
+            this.height = 0;
+        }
     }
 
-    //TODO remove setStartingWeight or remove comments around it?
-/*
     /**
      * This method updates the weight field. It should not be used, as weight should only be adjusted in assessments.
-     * @param weight The Person's weight upon joining the gym must be greater than or equal
+     * However it is used for test purposes.
+     * @param startingWeight The Person's weight upon joining the gym must be greater than or equal
      *               to 35kg, and less than or equal to 250kg.
-
-    public void setStartingWeight(double weight) {
-        if ((startingWeight >= 35) && (startingWeight <= 250))
-        this.startingWeight = startingWeight;
+*/
+    public void setStartingWeight(double startingWeight) {
+        if ((startingWeight >= 35) && (startingWeight <= 250)) {
+            this.startingWeight = startingWeight;
+        }
+        else
+        {
+            this.startingWeight = 0;
+        }
     }
-    */
+
 
 
     /**
@@ -161,7 +178,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            weightAssess += "" + date + assessments.get(date).getWeight();
+            weightAssess += "" + date + assessments.get(date).getWeight() + "\n";
         }
 
         return weightAssess;
@@ -173,7 +190,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            chestAssess += "" + date + assessments.get(date).getChest();
+            chestAssess += "" + date + assessments.get(date).getChest() + "\n";
         }
 
         return chestAssess;
@@ -185,7 +202,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            thighAssess += "" + date + assessments.get(date).getThigh();
+            thighAssess += "" + date + assessments.get(date).getThigh() + "\n";
         }
 
         return thighAssess;
@@ -197,7 +214,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            upperArmAssess += "" + date + assessments.get(date).getUpperArm();
+            upperArmAssess += "" + date + assessments.get(date).getUpperArm() + "\n";
         }
 
         return upperArmAssess;
@@ -209,7 +226,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            waistAssess += "" + date + assessments.get(date).getWaist();
+            waistAssess += "" + date + assessments.get(date).getWaist() + "\n";
         }
 
         return waistAssess;
@@ -221,7 +238,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            hipsAssess += "" + date + assessments.get(date).getHips();
+            hipsAssess += "" + date + assessments.get(date).getHips() + "\n";
         }
 
         return hipsAssess;
@@ -233,7 +250,7 @@ abstract public class Member extends Person{
         for (Date date : sortedAssessmentDates())
         {
 
-            commentAssess += "" + date + assessments.get(date).getComment();
+            commentAssess += "" + date + assessments.get(date).getComment() + "\n";
         }
 
         return commentAssess;
@@ -291,8 +308,8 @@ abstract public class Member extends Person{
     public String toString() {
         String str = "";
         str += (super.toString() + "\n");
-        str += (height + "\n");
-        str += (startingWeight + "\n");
+        str += ("Height: " + height + "m\n");
+        str += ("Starting Weight: " + startingWeight + "kg");
 
         return str;
     }

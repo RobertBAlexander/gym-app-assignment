@@ -58,13 +58,14 @@ abstract public class Person {
             this.email = "Invalid Email";
         }
         this.address = address;
-        if ((gender.toUpperCase().equals("M")) || (gender.toUpperCase().equals("F"))) {
+
+        if ((gender.toUpperCase().equals("M")) || (gender.toUpperCase().equals("F"))){
             this.gender = gender.toUpperCase();
         }
-        else
-        {
+        else{
             this.gender = "Unspecified";
         }
+
     }
 
     //********************************************************************************
@@ -179,11 +180,15 @@ abstract public class Person {
     public String toString() {
         String str = "";
 
-        str += (name + "\n");
-        str += (email + "\n");
-        str += (address + "\n");
+        str += ("Name: " + name + "\n");
+        str += ("E-mail: " + email + "\n");
+        str += ("Address: " + address + "\n");
         if((gender == "M") || (gender == "F")) {
-            str += (gender += "\n");
+            str += ("Gender: " + gender);
+        }
+        else
+        {
+            str += "Gender: Unspecified";
         }
         return str;
 

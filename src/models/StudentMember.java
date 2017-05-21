@@ -111,8 +111,8 @@ public class StudentMember extends Member{
     public String toString() {
         String str = "";
         str += (super.toString() + "\n");
-        str += (studentID + "\n");
-        str += (collegeName + "\n");
+        str += ("Student ID: " + studentID + "\n");
+        str += ("College Name: " + collegeName);
 
         return str;
     }

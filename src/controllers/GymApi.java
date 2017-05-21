@@ -53,23 +53,6 @@ public class GymApi {
         members.add(member);
     }
 
-    /**
-     * This method adds a member to the array list of members.
-     * @param member There is no validation on adding a member to the array.
-     */
-    public void addStudentMember(StudentMember member)
-    {
-        members.add(member);
-    }
-
-    /**
-     * This method adds a member to the array list of members.
-     * @param member There is no validation on adding a member to the array.
-     */
-    public void addPremiumMember(PremiumMember member)
-    {
-        members.add(member);
-    }
 
     /**
      * This method adds a trainer to the array list of trainers.
@@ -162,31 +145,20 @@ public class GymApi {
     {
         //Finds a member based on an e-mail entered. If no match, return null
         //use... member.getEmail Then, if that string.equals emailEntered, return it. But search all e-mail strings!
-        String searchByMail = new String("");
-        if (members.size() > 0)
-        {
+        //String searchByMail = new String("");
+        if (members.size() > 0) {
             // try members members members!!
-            for (Member member : members)
-            {
-                if (emailEntered.equals(member.getEmail()))
-                {
-                    //searchByMail += searchByMail + member.getName();
-                    return member;
-
-
-                    //above works if I want to return name of member. I want to return the 'member object'.
+            int i = 0;
+            while (i < members.size()) {
+                if (members.get(i).getEmail().equals(emailEntered)) {
+                    return members.get(i);
                 }
-                else
-                {
-                    return null;
-                }
+                i++;
 
             }
-        }
-        else
-        {
             return null;
         }
+
         return null;
     }
 
@@ -272,7 +244,7 @@ public class GymApi {
      * Returns a list of all the members in this gym.
      * @return list of all the members in this gym.
      */
-    public String listMembers ()
+    public String listMembers()
     {
         //If members.size > 0. String listing all members in gym. If none, indicate this.
         if(members.size() > 0)
@@ -280,7 +252,7 @@ public class GymApi {
             String listOfMembers = "";
             for (int i = 0; i < numberOfMembers(); i++)
             {
-                listOfMembers += i + ": " + members.get(i) + "\n";
+                listOfMembers += i + ": " + members.get(i).toString() + "\n";
             }
             return listOfMembers;
         }
@@ -393,10 +365,11 @@ public class GymApi {
      * Load date for a gym.
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public void load () throws Exception
     {
         XStream xstream = new XStream(new DomDriver());
-        ObjectInputStream is = xstream.createObjectInputStream (new FileReader("gym.xml"));
+        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("gym.xml"));
         trainers = (ArrayList<Trainer>) is.readObject();
         members = (ArrayList<Member>) is.readObject();
 
@@ -407,10 +380,9 @@ public class GymApi {
      * Saves data for the gym.
      * @throws Exception
      */
-    public void save () throws Exception
-    {
+    public void save() throws Exception {
         XStream xstream = new XStream(new DomDriver());
-        ObjectOutputStream out = xstream.createObjectOutputStream (new FileWriter("gym.xml"));
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("gym.xml"));
         out.writeObject(members);
         out.writeObject(trainers);
         out.close();
