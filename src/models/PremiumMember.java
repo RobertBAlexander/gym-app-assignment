@@ -58,7 +58,7 @@ public class PremiumMember extends Member{
     @Override
     public String toString() {
         String str = "";
-        str += (super.toString() + "\n");
+        str += (super.toString());
 
         return str;
     }

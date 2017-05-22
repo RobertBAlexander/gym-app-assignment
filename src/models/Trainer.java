@@ -72,7 +72,7 @@ public class Trainer extends Person{
     public String toString() {
         String str = "";
         str += (super.toString() + "\n");
-        str += (speciality + "\n");
+        str += ("Speciality: " + speciality);
 
         return str;
     }

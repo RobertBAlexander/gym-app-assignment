@@ -320,7 +320,7 @@ abstract public class Member extends Person{
         String str = "";
         str += (super.toString() + "\n");
         str += ("Height: " + height + "m\n");
-        str += ("Starting Weight: " + startingWeight + "kg");
+        str += ("Starting Weight: " + startingWeight + "kg\n");
         str += ("Member Package: " + memberPackage);
 
         return str;

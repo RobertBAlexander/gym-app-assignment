@@ -2,8 +2,13 @@ package models;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.junit.After;
+import java.util.*;
+
+//import static org.junit.Assert.*;
+
 
 /**
  * Created by Robert Alexander on 20/05/2017.
@@ -11,6 +16,8 @@ import org.junit.jupiter.api.Test;
 public class StudentMemberTest {
 
     private StudentMember robert, tom, heatherlimit, overlimit, underlimit;
+    private Assessment assess1, assess2;
+    private Trainer trainer1;
 
     @org.junit.jupiter.api.Test
 
@@ -32,6 +39,11 @@ public class StudentMemberTest {
         underlimit = new StudentMember("Heatherisgoingtolimit 29 soon", "heather@under",
                 "house", "q", 0.99, 34.99, "WIT", "stude", "AIT");
 
+        trainer1 = new Trainer("MrrT", "t@mail","there", "m", "pity");
+
+        assess1 = new Assessment(91, 38, 34, 38, 39, 30, "Nice job", trainer1);
+        assess2 = new Assessment(51, 34, 9, 34, 34, 98, "Not Nice job", trainer1);
+
         assertEquals("Robert", robert.getName());
         assertEquals("robert@gmail.com", robert.getEmail());
         assertEquals("Live in a house", robert.getAddress());
@@ -41,16 +53,23 @@ public class StudentMemberTest {
         assertEquals("c98h2ef9h", robert.getStudentID());
         assertEquals("WIT", robert.getCollegeName());
         assertEquals("Name: Robert\nE-mail: robert@gmail.com\nAddress: Live in a house\nGender: M\nHeight: " +
-                "1.5m\nStarting Weight: 72.0kg\nStudent ID: c98h2ef9h\nCollege Name: WIT", robert.toString());
+                "1.5m\nStarting Weight: 72.0kg\nMember Package: WIT\nStudent ID: c98h2ef9h\nCollege Name: WIT", robert.toString());
         assertEquals("Name: This is tom the guy with the r\nE-mail: tom@longname.com\nAddress: He could live anywhere, really" +
-                "\nGender: M\nHeight: 2.9m\nStarting Weight: 249.99kg\nStudent ID: imastudent\nCollege Name: WIT", tom.toString());
+                "\nGender: M\nHeight: 2.9m\nStarting Weight: 249.99kg\nMember Package: WIT\nStudent ID: imastudent\nCollege Name: WIT", tom.toString());
         assertEquals("Name: Heather isgoingtolimit 30 soon\nE-mail: heather@heather\nAddress: house" +
-                "\nGender: F\nHeight: 3.0m\nStarting Weight: 250.0kg\nStudent ID: stu\nCollege Name: AIT", heatherlimit.toString());
+                "\nGender: F\nHeight: 3.0m\nStarting Weight: 250.0kg\nMember Package: WIT\nStudent ID: stu\nCollege Name: AIT", heatherlimit.toString());
         assertEquals("Name: Heather isgoingto limit 31 soo\nE-mail: heather@mail\nAddress: house" +
-                "\nGender: F\nHeight: 0.0m\nStarting Weight: 0.0kg\nStudent ID: stu\nCollege Name: AIT", overlimit.toString());
+                "\nGender: F\nHeight: 0.0m\nStarting Weight: 0.0kg\nMember Package: WIT\nStudent ID: stu\nCollege Name: AIT", overlimit.toString());
         assertEquals("Name: Heatherisgoingtolimit 29 soon\nE-mail: heather@under\nAddress: house" +
-                "\nGender: Unspecified\nHeight: 0.0m\nStarting Weight: 0.0kg\nStudent ID: stude\nCollege Name: AIT", underlimit.toString());
+                "\nGender: Unspecified\nHeight: 0.0m\nStarting Weight: 0.0kg\nMember Package: WIT\nStudent ID: stude\nCollege Name: AIT", underlimit.toString());
+
     }
+
+
+
+
+
+
 
   /*  @Test
     public void robTests()
