@@ -59,10 +59,17 @@ abstract public class Person {
         }
         this.address = address;
 
-        if ((gender.toUpperCase().equals("M")) || (gender.toUpperCase().equals("F"))){
+        if ((gender.equals("M")) || (gender.equals("F"))){
             this.gender = gender.toUpperCase();
+        } else if (gender.equals("m"))
+        {
+            this.gender = "M";
         }
-        else{
+        else if (gender.equals("f"))
+        {
+            this.gender = "F";
+        }
+        else {
             this.gender = "Unspecified";
         }
 
@@ -123,11 +130,17 @@ abstract public class Person {
      *               to "Unspecified".
      */
     public void setGender(String gender) {
-        if ((gender.toUpperCase().equals("M")) || (gender.toUpperCase().equals("F"))) {
+        if ((gender.equals("M")) || (gender.equals("F"))){
             this.gender = gender.toUpperCase();
-        }
-        else
+        } else if (gender.equals("m"))
         {
+            this.gender = "M";
+        }
+        else if (gender.equals("f"))
+        {
+            this.gender = "F";
+        }
+        else {
             this.gender = "Unspecified";
         }
     }

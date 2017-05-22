@@ -21,16 +21,16 @@ public class StudentMemberTest {
                 "M", 1.5, 72, "c98h2ef9h", "WIT");
 
         tom = new StudentMember("This is tom the guy with the really long name to test character length",
-                "tom@longname.com", "He could live anywhere, really", "M", 2.9,
+                "tom@longname.com", "He could live anywhere, really", "m", 2.9,
                 249.99, "imastudent", "WIT");
 
         heatherlimit = new StudentMember("Heather isgoingtolimit 30 soon", "heather@heather",
                 "house", "F", 3, 250, "stu", "AIT");
 
         overlimit = new StudentMember("Heather isgoingto limit 31 soon", "heather@mail",
-                "house", "F", 3.01, 250.01, "stu", "AIT");
-        underlimit = new StudentMember("Heather isgoingto limit 31 soon", "heather@mail",
-                "house", "F", 3.01, 250.01, "stu", "AIT");
+                "house", "f", 3.01, 250.01, "stu", "AIT");
+        underlimit = new StudentMember("Heatherisgoingtolimit 29 soon", "heather@under",
+                "house", "q", 0.99, 34.99, "stude", "AIT");
 
         assertEquals("Robert", robert.getName());
         assertEquals("robert@gmail.com", robert.getEmail());
@@ -48,6 +48,8 @@ public class StudentMemberTest {
                 "\nGender: F\nHeight: 3.0m\nStarting Weight: 250.0kg\nStudent ID: stu\nCollege Name: AIT", heatherlimit.toString());
         assertEquals("Name: Heather isgoingto limit 31 soo\nE-mail: heather@mail\nAddress: house" +
                 "\nGender: F\nHeight: 0.0m\nStarting Weight: 0.0kg\nStudent ID: stu\nCollege Name: AIT", overlimit.toString());
+        assertEquals("Name: Heatherisgoingtolimit 29 soon\nE-mail: heather@under\nAddress: house" +
+                "\nGender: Unspecified\nHeight: 0.0m\nStarting Weight: 0.0kg\nStudent ID: stude\nCollege Name: AIT", underlimit.toString());
     }
 
   /*  @Test

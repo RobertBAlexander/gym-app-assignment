@@ -2,8 +2,12 @@ package controllers;
 
 import java.util.Date;
 import java.util.Scanner;
+import java.util.*;
 import controllers.GymApi.*;
 import models.*;
+import models.Trainer;
+import models.Member;
+import models.Assessment;
 import utils.Analytics;
 
 import static utils.ScannerInput.validNextDouble;
@@ -22,6 +26,7 @@ public class MenuController {
     private String memberEmail;
     private String trainerEmail;
     private boolean userIsMember = false;
+    private HashMap<String, String> memberPackage;
 
     public static void main (String[] args)
     {
@@ -31,7 +36,18 @@ public class MenuController {
     public MenuController()
     {
         //Immediately try to load any pre-existing gym file.
+        input = new Scanner(System.in);
         gym = new GymApi();
+        memberPackage = new HashMap<>();
+        memberPackage.put("Package 1", "Allowed access anytime to gym.\nFree access to all classes.\n" +
+                "\nAccess to all changing areas including deluxe changing rooms.");
+        memberPackage.put("Package 2", "Allowed access anytime to gym.\n€3 fee for all classes." +
+                "\nAccess to all changing areas including deluxe changing rooms.");
+        memberPackage.put("Package 3", "Allowed access to gym at off-peak times.\n€5 fee for all" +
+                "classes.\nNo access to deluxe changing rooms.");
+        memberPackage.put("WIT", "Allowed access to gym during term time.\n€4 fee for all classes." +
+                "\nNo access to deluxe changing rooms.");
+
         try
         {
             gym.load();
@@ -106,7 +122,9 @@ public class MenuController {
 
         if ((loginType.toUpperCase().equals("L")) && (personType.toUpperCase().equals("T")))
         {
+            userIsMember = false;
             System.out.println("Please enter your e-mail address.");
+            input.nextLine();
             trainerEmail = input.nextLine();
             if (gym.searchTrainersByEmail(trainerEmail) == null)
             {
@@ -122,7 +140,7 @@ public class MenuController {
         }
         if ((loginType.toUpperCase().equals("R")) && (personType.toUpperCase().equals("T")))
         {
-
+            userIsMember = false;
             addTrainer();
             runTrainerMenu();
         }
@@ -459,7 +477,7 @@ public class MenuController {
      */
     private void runAssessmentMenu()
     {
-        int option = trainerMenu();
+        int option = assessmentMenu();
         while (option != 0){
             switch (option){
                 case 1:     addNewAssessment();
@@ -467,7 +485,7 @@ public class MenuController {
                     break;
 
                 case 2:     //Need the member, and assessment.
-                    System.out.println("Please enter the name of the member of the assessment you want to update.");
+                    System.out.println("Please enter the name of the member whos assessment you want to update.");
                     String emailSearch = input.nextLine();
                     System.out.println("Please enter the new comment for the assessment you want to update.");
                     String newComment = input.nextLine();
@@ -517,7 +535,7 @@ public class MenuController {
      */
     private void runReportsMenu()
     {
-        int option = trainerMenu();
+        int option = reportsMenu();
         while (option != 0){
             switch (option){
                 case 1:     System.out.println("Please enter the e-mail of the user you wish you check the progress of: ");
@@ -656,6 +674,7 @@ public class MenuController {
         //or should they also be created and linked separately?
         if ((premiumOrStudent == 'S') || (premiumOrStudent == 's'))
         {
+            memberPackage.equals("WIT");
             System.out.println("Please enter your College Name.");
             input.nextLine();
             String stuCampus = input.nextLine();
@@ -679,6 +698,20 @@ public class MenuController {
         }
         else// if ((premiumOrStudent == 'P') || (premiumOrStudent == 'p'))
         {
+            System.out.println("Please enter the package you wish you use.");
+            for (Map.Entry<String, String> memberPackage : memberPackage.entrySet()) {
+                String key = memberPackage.getKey();
+                String value = memberPackage.getValue();
+                System.out.println(key + "\n" + value + "\n\n");
+            }
+            String memberPackage = input.nextLine();
+            while ((memberPackage.equals("Package 1")) || (memberPackage.equals("Package 2")) ||
+                    (memberPackage.equals("Package 3")) || (memberPackage.equals("WIT")))
+            {
+                System.out.println("Please enter a valid package option to proceed.");
+                memberPackage = input.nextLine();
+
+            }
             gym.addMember(new PremiumMember(memName, memEmail, memAddress, memGender, memHeight, memWeight));
             //System.out.println("Thank you for registering, you will now be returned to the previous Menu.");
         }

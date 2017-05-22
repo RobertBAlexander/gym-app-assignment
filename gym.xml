@@ -1,44 +1,24 @@
 <object-stream>
-  <list>
-    <models.StudentMember>
-      <name>rob</name>
-      <email>rob@mail</email>
-      <address>here</address>
-      <gender>M</gender>
-      <height>1.8</height>
-      <startingWeight>93.0</startingWeight>
-      <assessments/>
-      <assessmentTreeSet/>
-      <studentID>student</studentID>
-      <collegeName>wit</collegeName>
-    </models.StudentMember>
-    <models.Trainer>
-      <name>MrT</name>
-      <email>t@mail.com</email>
-      <address>EVERYWHERE</address>
-      <gender>M</gender>
-      <speciality>Pitying Fools</speciality>
-    </models.Trainer>
-  </list>
-  <list>
-    <models.StudentMember>
-      <name>rob</name>
-      <email>rob@mail</email>
-      <address>here</address>
-      <gender>M</gender>
-      <height>1.8</height>
-      <startingWeight>93.0</startingWeight>
-      <assessments/>
-      <assessmentTreeSet/>
-      <studentID>stume</studentID>
-      <collegeName>wit</collegeName>
-    </models.StudentMember>
-    <models.Trainer>
-      <name>MrT.</name>
-      <email>t@mail</email>
-      <address>here</address>
-      <gender>M</gender>
-      <speciality>Pitying</speciality>
-    </models.Trainer>
-  </list>
+<list/>
+<list>
+  <models.StudentMember>
+    <name>rob</name>
+    <email>rob@mail</email>
+    <address>here</address>
+    <gender>M</gender>
+    <height>2.0</height>
+    <startingWeight>93.0</startingWeight>
+    <assessments/>
+    <assessmentTreeSet/>
+    <studentID>student</studentID>
+    <collegeName>WIT</collegeName>
+  </models.StudentMember>
+  <models.Trainer>
+    <name>MrT</name>
+    <email>t@mail</email>
+    <address>there</address>
+    <gender>M</gender>
+    <speciality>pity</speciality>
+  </models.Trainer>
+</list>
 </object-stream>

@@ -25,7 +25,7 @@ import models.Assessment;
 abstract public class Member extends Person{
     private double height;
     private double startingWeight;
-    //public String chosenPackage;
+    public String memberPackage;
     HashMap<Date, Assessment> assessments = new HashMap<>();
     TreeSet<Date> assessmentTreeSet = new TreeSet<>();
 
@@ -47,7 +47,7 @@ abstract public class Member extends Person{
      *               to 35kg, and less than or equal to 250kg.
      */
     public Member( String name, String email, String address, String gender, double height,
-                   double startingWeight) {
+                   double startingWeight, String memberPackage) {
         super(name, email, address, gender);
         if ((height >= 1) && (height <= 3))
         {
@@ -64,6 +64,7 @@ abstract public class Member extends Person{
         {
             this.startingWeight = 0;
         }
+        this.memberPackage = memberPackage;
     }
 
 
@@ -102,6 +103,11 @@ abstract public class Member extends Person{
         {
             this.startingWeight = 0;
         }
+    }
+
+    public void setMemberPackage(String memberPackage)
+    {
+        this.memberPackage = memberPackage;
     }
 
 
@@ -143,6 +149,11 @@ abstract public class Member extends Person{
      */
     public double getWeight() {
         return startingWeight;
+    }
+
+    public String getMemberPackage()
+    {
+        return memberPackage;
     }
 
     /**
@@ -310,6 +321,7 @@ abstract public class Member extends Person{
         str += (super.toString() + "\n");
         str += ("Height: " + height + "m\n");
         str += ("Starting Weight: " + startingWeight + "kg");
+        str += ("Member Package: " + memberPackage);
 
         return str;
     }

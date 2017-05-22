@@ -36,8 +36,15 @@ import utils.Analytics;
 
 public class GymApi {
 
-    private ArrayList<Member> members = new ArrayList();
-    private ArrayList<Trainer> trainers = new ArrayList();
+    private ArrayList<Member> members;
+    private ArrayList<Trainer> trainers;
+
+
+    public GymApi()
+    {
+        members = new ArrayList<>();
+        trainers = new ArrayList<>();
+    }
 
 
     //********************************************************************************
@@ -173,7 +180,7 @@ public class GymApi {
         //Return list of members who's name partially or entirely matches entered name. If no members in gym,
         //return note indicating this. If no there are members, but no matches, return message
         //for this separately.
-        String searchByName = new String("");
+        String searchByName = "";
         if (members.size() > 0)
         {
             for (int i = 0; i < numberOfMembers(); i++)
@@ -211,34 +218,23 @@ public class GymApi {
      * @param emailEntered The e-mail of the trainer being requested.
      * @return The trainer with this e-mail.
      */
-    public Trainer searchTrainersByEmail (String emailEntered)
-    {
-        //Returns the trainer based on e-mail entered. If no match, return null.
-        String searchByMail = new String("");
-        if (trainers.size() > 0)
-        {
-            // try members members members!!
-            for (Trainer trainer : trainers)
-            {
-                if (emailEntered.equals(trainer.getEmail()))
-                {
-                    //searchByMail += searchByMail + trainer.getName();
-                    return trainer;
+    public Trainer searchTrainersByEmail(String emailEntered) {
 
+        if (trainers.size() > 0) {
+            // try trainers trainers trainers!!
+            int i = 0;
+            while (i < trainers.size()) {
+                if (trainers.get(i).getEmail().equals(emailEntered)) {
+                    return trainers.get(i);
                 }
-                else
-                {
-                    return null;
-                }
+                i++;
 
             }
-        }
-        else
-        {
             return null;
         }
         return null;
     }
+
 
     /**
      * Returns a list of all the members in this gym.
@@ -366,7 +362,7 @@ public class GymApi {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public void load () throws Exception
+    public void load() throws Exception
     {
         XStream xstream = new XStream(new DomDriver());
         ObjectInputStream is = xstream.createObjectInputStream(new FileReader("gym.xml"));
