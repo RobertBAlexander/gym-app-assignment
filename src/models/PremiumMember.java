@@ -27,8 +27,9 @@ public class PremiumMember extends Member{
      *
      * @param startingWeight The starting weight and it's validation, are called from the Member super class.
      */
-    public PremiumMember( String name, String email, String address, String gender, double height, double startingWeight) {
-        super(name, email, address, gender, height, startingWeight);
+    public PremiumMember( String name, String email, String address, String gender, double height, double startingWeight,
+                          String memberPackage) {
+        super(name, email, address, gender, height, startingWeight, memberPackage);
 
     }
 

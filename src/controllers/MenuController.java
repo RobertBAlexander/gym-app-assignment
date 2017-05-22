@@ -66,7 +66,7 @@ public class MenuController {
      */
     private void loginMenu()
     {
-        input = new Scanner(System.in);
+        //input = new Scanner(System.in);
 
         System.out.println("\fAre you a member of a trainer?");
         System.out.println("---------");
@@ -674,7 +674,7 @@ public class MenuController {
         //or should they also be created and linked separately?
         if ((premiumOrStudent == 'S') || (premiumOrStudent == 's'))
         {
-            memberPackage.equals("WIT");
+            String memberPackage= "WIT";
             System.out.println("Please enter your College Name.");
             input.nextLine();
             String stuCampus = input.nextLine();
@@ -692,11 +692,11 @@ public class MenuController {
             //}
 
             gym.addMember(new StudentMember(memName, memEmail, memAddress, memGender, memHeight,
-                    memWeight, stuID, stuCampus));
+                    memWeight, memberPackage, stuID, stuCampus));
             //System.out.println("Thank you for registering, you will now be returned to the previous Menu.");
 
         }
-        else// if ((premiumOrStudent == 'P') || (premiumOrStudent == 'p'))
+        else if ((premiumOrStudent == 'P') || (premiumOrStudent == 'p'))
         {
             System.out.println("Please enter the package you wish you use.");
             for (Map.Entry<String, String> memberPackage : memberPackage.entrySet()) {
@@ -704,6 +704,7 @@ public class MenuController {
                 String value = memberPackage.getValue();
                 System.out.println(key + "\n" + value + "\n\n");
             }
+            input.nextLine();
             String memberPackage = input.nextLine();
             while ((memberPackage.equals("Package 1")) || (memberPackage.equals("Package 2")) ||
                     (memberPackage.equals("Package 3")) || (memberPackage.equals("WIT")))
@@ -712,7 +713,7 @@ public class MenuController {
                 memberPackage = input.nextLine();
 
             }
-            gym.addMember(new PremiumMember(memName, memEmail, memAddress, memGender, memHeight, memWeight));
+            gym.addMember(new PremiumMember(memName, memEmail, memAddress, memGender, memHeight, memWeight, memberPackage));
             //System.out.println("Thank you for registering, you will now be returned to the previous Menu.");
         }
         //else

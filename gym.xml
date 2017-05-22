@@ -1,24 +1,48 @@
 <object-stream>
-<list/>
-<list>
-  <models.StudentMember>
-    <name>rob</name>
-    <email>rob@mail</email>
-    <address>here</address>
-    <gender>M</gender>
-    <height>2.0</height>
-    <startingWeight>93.0</startingWeight>
-    <assessments/>
-    <assessmentTreeSet/>
-    <studentID>student</studentID>
-    <collegeName>WIT</collegeName>
-  </models.StudentMember>
-  <models.Trainer>
-    <name>MrT</name>
-    <email>t@mail</email>
-    <address>there</address>
-    <gender>M</gender>
-    <speciality>pity</speciality>
-  </models.Trainer>
-</list>
+  <list>
+    <models.StudentMember>
+      <name>rob</name>
+      <email>rob@mail</email>
+      <address>here</address>
+      <gender>M</gender>
+      <height>2.0</height>
+      <startingWeight>94.0</startingWeight>
+      <memberPackage>WIT</memberPackage>
+      <assessments/>
+      <assessmentTreeSet/>
+      <studentID>myID</studentID>
+      <collegeName>WIT</collegeName>
+    </models.StudentMember>
+    <models.Trainer>
+      <name>MrT</name>
+      <email>t@mail</email>
+      <address>there</address>
+      <gender>M</gender>
+      <speciality>pity</speciality>
+    </models.Trainer>
+    <models.PremiumMember>
+      <name>her</name>
+      <email>her@mail</email>
+      <address>there</address>
+      <gender>F</gender>
+      <height>2.0</height>
+      <startingWeight>95.0</startingWeight>
+      <memberPackage>&quot;Package 2&quot;</memberPackage>
+      <assessments/>
+      <assessmentTreeSet/>
+    </models.PremiumMember>
+  </list>
+  <list>
+    <models.PremiumMember>
+      <name>bert</name>
+      <email>bert@mail</email>
+      <address>heretoo</address>
+      <gender>F</gender>
+      <height>2.3</height>
+      <startingWeight>99.0</startingWeight>
+      <memberPackage></memberPackage>
+      <assessments/>
+      <assessmentTreeSet/>
+    </models.PremiumMember>
+  </list>
 </object-stream>

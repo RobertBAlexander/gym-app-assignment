@@ -18,19 +18,19 @@ public class StudentMemberTest {
     {
 
         robert = new StudentMember("Robert", "robert@gmail.com", "Live in a house",
-                "M", 1.5, 72, "c98h2ef9h", "WIT");
+                "M", 1.5, 72, "WIT", "c98h2ef9h", "WIT");
 
         tom = new StudentMember("This is tom the guy with the really long name to test character length",
                 "tom@longname.com", "He could live anywhere, really", "m", 2.9,
-                249.99, "imastudent", "WIT");
+                249.99, "WIT", "imastudent", "WIT");
 
         heatherlimit = new StudentMember("Heather isgoingtolimit 30 soon", "heather@heather",
-                "house", "F", 3, 250, "stu", "AIT");
+                "house", "F", 3, 250, "WIT","stu", "AIT");
 
         overlimit = new StudentMember("Heather isgoingto limit 31 soon", "heather@mail",
-                "house", "f", 3.01, 250.01, "stu", "AIT");
+                "house", "f", 3.01, 250.01, "WIT", "stu", "AIT");
         underlimit = new StudentMember("Heatherisgoingtolimit 29 soon", "heather@under",
-                "house", "q", 0.99, 34.99, "stude", "AIT");
+                "house", "q", 0.99, 34.99, "WIT", "stude", "AIT");
 
         assertEquals("Robert", robert.getName());
         assertEquals("robert@gmail.com", robert.getEmail());

@@ -37,8 +37,8 @@ public class StudentMember extends Member{
      * @param collegeName There is no validation for the student's college name.
      */
     public StudentMember( String name, String email, String address, String gender, double height, double startingWeight,
-                          String studentID, String collegeName) {
-        super(name, email, address, gender, height, startingWeight);
+            String memberPackage, String studentID, String collegeName) {
+        super(name, email, address, gender, height, startingWeight, memberPackage);
         this.studentID = studentID;
         this.collegeName = collegeName;
     }
